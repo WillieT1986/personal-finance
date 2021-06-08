@@ -5,11 +5,13 @@ public class Bill {
     private String name;
     private Double cost;
     private String dueDate;
+    private String frequency;
 
-    public Bill(String name, Double cost, String dueDate) {
+    public Bill(String name, Double cost, String dueDate, String frequency) {
         this.name = name;
         this.cost = cost;
         this.dueDate = dueDate;
+        this.frequency = frequency;
     }
 
     public String getName() {
@@ -22,5 +24,9 @@ public class Bill {
 
     public String getDueDate() {
         return dueDate;
+    }
+
+    public String getFrequency() {
+        return frequency;
     }
 }

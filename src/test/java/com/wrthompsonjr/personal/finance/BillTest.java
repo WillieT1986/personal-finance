@@ -11,12 +11,13 @@ public class BillTest {
     private static final String NAME = "AEP Electric";
     private static final Double COST = 50.05;
     private static final String DUE_DATE = "08";
+    private static final String FREQUENCY = "Monthly";
 
     Bill underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new Bill(NAME, COST, DUE_DATE);
+        underTest = new Bill(NAME, COST, DUE_DATE, FREQUENCY);
     }
 
     @Test
@@ -42,4 +43,9 @@ public class BillTest {
         assertEquals("08", check);
     }
 
+    @Test
+    public void shouldReturnTheFrequencyOfABill() {
+        String check = underTest.getFrequency();
+        assertEquals("Monthly", check);
+    }
 }
