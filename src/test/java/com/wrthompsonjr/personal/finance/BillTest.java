@@ -26,7 +26,7 @@ public class BillTest {
     }
 
     @Test
-    public void shouldConstructABillAndRetrunABillName() {
+    public void shouldConstructABillAndReturnABillName() {
         String check = underTest.getName();
         assertEquals(NAME, check);
     }
