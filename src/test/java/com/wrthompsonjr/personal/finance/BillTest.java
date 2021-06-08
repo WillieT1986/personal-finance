@@ -10,12 +10,13 @@ public class BillTest {
 
     private static final String NAME = "AEP Electric";
     private static final Double COST = 50.05;
+    private static final String DUE_DATE = "08";
 
     Bill underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new Bill(NAME, COST);
+        underTest = new Bill(NAME, COST, DUE_DATE);
     }
 
     @Test
@@ -33,6 +34,12 @@ public class BillTest {
     public void shouldReturnCostOfBill() {
         Double check = underTest.getCost();
         assertEquals(COST, check);
+    }
+
+    @Test
+    public void shouldReturnDueDateOfBill() {
+        String check = underTest.getDueDate();
+        assertEquals("08", check);
     }
 
 }
