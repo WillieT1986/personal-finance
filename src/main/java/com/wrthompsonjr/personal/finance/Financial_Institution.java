@@ -3,12 +3,12 @@ package com.wrthompsonjr.personal.finance;
 public class Financial_Institution {
 
     public String name;
-    public String financial_institution_type;
+    public String financialInstitutionType;
     public String accountType;
 
-    public Financial_Institution(String name, String financial_institution_type, String accountType) {
+    public Financial_Institution(String name, String financialInstitutionType, String accountType) {
         this.name = name;
-        this.financial_institution_type = financial_institution_type;
+        this.financialInstitutionType = financialInstitutionType;
         this.accountType = accountType;
     }
 
@@ -17,7 +17,7 @@ public class Financial_Institution {
     }
 
     public String getFinancialInstitutionType() {
-        return financial_institution_type;
+        return financialInstitutionType;
     }
 
     public String getAccountType() {
