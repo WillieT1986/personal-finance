@@ -1,4 +1,12 @@
 package com.wrthompsonjr.personal.finance;
+/*
+    -- The Financial Institution Class --
+    Everyone belongs to some type of Financial Institution.
+    Whether it is a Bank, Credit Union, or even a Crypto Exchange, we hold our funds in some type of account.
+    It's either a Checking Account, Savings Account, Retirement Account, or even a Crypto Wallet.
+    When a User goes to enter in their Financial Institution, they will only need to add in the Name, Type,
+    and Account Type.
+*/
 
 public class Financial_Institution {
 
