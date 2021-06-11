@@ -12,12 +12,13 @@ public class UserProfileTest {
     private static final String MIDDLE_NAME = "Middle";
     private static final String LAST_NAME = "Last";
     private static final String SUFFIX = "II";
+    private static final String USER_EMAIL = "Test@wrthompsonjr.com";
 
     UserProfile underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX);
+        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL);
     }
 
     @Test
@@ -35,5 +36,11 @@ public class UserProfileTest {
         assertEquals(MIDDLE_NAME, check_middleName);
         assertEquals(LAST_NAME, check_lastName);
         assertEquals(SUFFIX, check_suffix);
+    }
+
+    @Test
+    public void shouldReturnUsersEmail() {
+        String check = underTest.getUserEmail();
+        assertEquals(USER_EMAIL, check);
     }
 }
