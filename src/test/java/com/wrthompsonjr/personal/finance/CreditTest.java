@@ -24,7 +24,7 @@ public class CreditTest {
     }
 
     @Test
-    public void shouldReturnNameOfCreditCard() {
+    public void shouldReturnNameOfCredit() {
         String check = underTest.getCreditName();
         assertEquals(CREDIT_NAME, check);
     }
