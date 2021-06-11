@@ -1,5 +1,9 @@
 package com.wrthompsonjr.personal.finance;
-
+/*
+    -- The User Profile Class --
+    This is where all the info for the User Profile will be stored, and have all other data tied to it.
+    At least, in theory anyways...
+*/
 public class UserProfile {
 
     public String firstName;
