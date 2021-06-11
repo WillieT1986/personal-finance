@@ -1,5 +1,11 @@
 package com.wrthompsonjr.personal.finance;
-
+/*
+    -- The Credit Class --
+    Everyone has Credit in one way shape of form.
+    Whether it be a Credit Card, a Charge Card, or even a Loan. This is to help manage it better without
+    sacrificing security and making our Credit more vulnerable online. Instead of adding Credit Info,
+    this just helps track the basics.
+*/
 public class Credit {
 
     public String creditName;
