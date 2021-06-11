@@ -13,12 +13,13 @@ public class UserProfileTest {
     private static final String LAST_NAME = "Last";
     private static final String SUFFIX = "II";
     private static final String USER_EMAIL = "Test@wrthompsonjr.com";
+    private static final String USER_PHONE_NUMBER = "000-000-0000";
 
     UserProfile underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL);
+        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER);
     }
 
     @Test
@@ -42,5 +43,11 @@ public class UserProfileTest {
     public void shouldReturnUsersEmail() {
         String check = underTest.getUserEmail();
         assertEquals(USER_EMAIL, check);
+    }
+
+    @Test
+    public void shouldReturnUserPhoneNumber() {
+        String check = underTest.getUserPhoneNumber();
+        assertEquals(USER_PHONE_NUMBER, check);
     }
 }
