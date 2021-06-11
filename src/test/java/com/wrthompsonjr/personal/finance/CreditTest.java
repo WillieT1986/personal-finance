@@ -10,12 +10,13 @@ public class CreditTest {
 
     private static final String CREDIT_NAME = "United Explorers Credit Card";
     private static final String CREDIT_TYPE = "Credit Card";
+    private static final Double CREDIT_AMOUNT = 500.00;
 
     Credit underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new Credit(CREDIT_NAME, CREDIT_TYPE);
+        underTest = new Credit(CREDIT_NAME, CREDIT_TYPE, CREDIT_AMOUNT);
     }
 
     @Test
@@ -33,5 +34,11 @@ public class CreditTest {
     public void shouldReturnCreditType() {
         String check = underTest.getCreditType();
         assertEquals(CREDIT_TYPE, check);
+    }
+
+    @Test
+    public void shouldReturnCreditAmount() {
+        Double check = underTest.getCreditAmount();
+        assertEquals(CREDIT_AMOUNT, check);
     }
 }
