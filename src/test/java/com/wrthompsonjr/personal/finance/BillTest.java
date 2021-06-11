@@ -12,12 +12,13 @@ public class BillTest {
     private static final Double COST = 50.05;
     private static final String DUE_DATE = "08";
     private static final String FREQUENCY = "Monthly";
+    private static final String SUBSCRIPTION = "No";
 
     Bill underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new Bill(NAME, COST, DUE_DATE, FREQUENCY);
+        underTest = new Bill(NAME, COST, DUE_DATE, FREQUENCY, SUBSCRIPTION);
     }
 
     @Test
@@ -47,5 +48,11 @@ public class BillTest {
     public void shouldReturnTheFrequencyOfABill() {
         String check = underTest.getFrequency();
         assertEquals("Monthly", check);
+    }
+
+    @Test
+    public void shouldReturnAnIndicatorForSubscription() {
+        String check = underTest.getSubscriptionIndicator();
+        assertEquals(SUBSCRIPTION, check);
     }
 }

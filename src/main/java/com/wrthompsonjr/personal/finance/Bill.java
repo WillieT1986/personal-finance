@@ -11,12 +11,14 @@ public class Bill {
     private Double cost;
     private String dueDate;
     private String frequency;
+    private String subscription;
 
-    public Bill(String name, Double cost, String dueDate, String frequency) {
+    public Bill(String name, Double cost, String dueDate, String frequency, String subscription) {
         this.name = name;
         this.cost = cost;
         this.dueDate = dueDate;
         this.frequency = frequency;
+        this.subscription = subscription;
     }
 
     public String getName() {
@@ -33,5 +35,9 @@ public class Bill {
 
     public String getFrequency() {
         return frequency;
+    }
+
+    public String getSubscriptionIndicator() {
+        return subscription;
     }
 }
