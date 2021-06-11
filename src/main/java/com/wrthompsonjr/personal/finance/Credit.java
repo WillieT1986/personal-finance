@@ -5,11 +5,13 @@ public class Credit {
     public String creditName;
     public String creditType;
     public Double creditAmount;
+    public String creditIssuer;
 
-    public Credit(String creditName, String creditType, Double creditAmount) {
+    public Credit(String creditName, String creditType, Double creditAmount, String creditIssuer) {
         this.creditName = creditName;
         this.creditType = creditType;
         this.creditAmount = creditAmount;
+        this.creditIssuer = creditIssuer;
     }
 
     public String getCreditName() {
@@ -22,5 +24,9 @@ public class Credit {
 
     public Double getCreditAmount() {
         return creditAmount;
+    }
+
+    public String getCreditIssuer() {
+        return creditIssuer;
     }
 }
