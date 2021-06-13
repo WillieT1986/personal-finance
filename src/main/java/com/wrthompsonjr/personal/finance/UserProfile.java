@@ -1,10 +1,21 @@
 package com.wrthompsonjr.personal.finance;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /*
     -- The User Profile Class --
     This is where all the info for the User Profile will be stored, and have all other data tied to it.
     At least, in theory anyways...
 */
+
+@Entity
 public class UserProfile {
+
+    @Id
+    @GeneratedValue
+    private long id;
 
     public String firstName;
     public String middleName;
@@ -12,6 +23,9 @@ public class UserProfile {
     public String suffix;
     public String userEmail;
     public String userPhoneNumber;
+
+    public UserProfile() {
+    }
 
     public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber) {
         this.firstName = firstName;
@@ -44,5 +58,25 @@ public class UserProfile {
 
     public String getUserPhoneNumber() {
         return userPhoneNumber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Long) id).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return id == ((UserProfile) obj).id;
     }
 }
