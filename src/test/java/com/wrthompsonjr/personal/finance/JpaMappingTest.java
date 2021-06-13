@@ -10,6 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.annotation.Resource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 
 @ExtendWith(SpringExtension.class)
@@ -24,6 +25,7 @@ public class JpaMappingTest {
     private static final String USER_PHONE = "000-000-0000";
 
     UserProfile userProfile;
+    Bill bill;
 
     @Resource
     private TestEntityManager entityManager;
@@ -31,9 +33,13 @@ public class JpaMappingTest {
     @Resource
     private UserProfileRepository userProfileRepo;
 
+    @Resource
+    private BillRepository billRepository;
+
     @BeforeEach
     public void setUp() {
-        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE);
+        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill);
+        bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
     }
 
     @Test
@@ -46,5 +52,24 @@ public class JpaMappingTest {
 
         userProfile = userProfileRepo.getById(userProfileId);
         assertThat(userProfile.getUserFirstName(), is(USER_FIRST_NAME));
+    }
+
+    @Test
+    public void shouldSaveUserProfileToBillRelationship() {
+        Bill bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
+        billRepository.save(bill);
+        long billId = bill.getId();
+
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill);
+        userProfile1 = userProfileRepo.save(userProfile1);
+
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill);
+        userProfile2 = userProfileRepo.save(userProfile2);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        bill = billRepository.getById(billId);
+        assertThat(bill.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
     }
 }

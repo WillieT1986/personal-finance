@@ -1,8 +1,8 @@
 package com.wrthompsonjr.personal.finance;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import net.minidev.json.annotate.JsonIgnore;
+
+import javax.persistence.*;
 
 /*
     -- The User Profile Class --
@@ -17,6 +17,10 @@ public class UserProfile {
     @GeneratedValue
     private long id;
 
+    @JsonIgnore
+    @ManyToOne
+    private Bill bill;
+
     public String firstName;
     public String middleName;
     public String lastName;
@@ -27,13 +31,14 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber) {
+    public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber, Bill bill) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.suffix = suffix;
         this.userEmail = userEmail;
         this.userPhoneNumber = userPhoneNumber;
+        this.bill = bill;
     }
 
     public String getUserFirstName() {
