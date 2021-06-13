@@ -1,5 +1,6 @@
 package com.wrthompsonjr.personal.finance;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,23 +16,35 @@ import static org.hamcrest.Matchers.is;
 @DataJpaTest
 public class JpaMappingTest {
 
+    private static final String USER_FIRST_NAME = "firstName";
+    private static final String USER_MIDDLE_NAME = "middleName";
+    private static final String USER_LAST_NAME = "lastName";
+    private static final String USER_SUFFIX = "II";
+    private static final String USER_EMAIL = "Gmail";
+    private static final String USER_PHONE = "000-000-0000";
+
+    UserProfile userProfile;
+
     @Resource
     private TestEntityManager entityManager;
 
     @Resource
     private UserProfileRepository userProfileRepo;
 
+    @BeforeEach
+    public void setUp() {
+        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE);
+    }
+
     @Test
     public void shouldSaveAndLoadUserProfile() {
-        UserProfile userProfile = new UserProfile("firstName", "middleName", "lastName", "II", "Test@Gmail.com", "000-000-0000");
         userProfile = userProfileRepo.save(userProfile);
-        Long userProfileId = userProfile.getId();
+        long userProfileId = userProfile.getId();
 
         entityManager.flush();
         entityManager.clear();
 
         userProfile = userProfileRepo.getById(userProfileId);
-        assertThat(userProfile.getUserFirstName(), is("firstName"));
+        assertThat(userProfile.getUserFirstName(), is(USER_FIRST_NAME));
     }
-
 }
