@@ -16,10 +16,12 @@ public class UserProfileTest {
     private static final String USER_PHONE_NUMBER = "000-000-0000";
 
     UserProfile underTest;
+    Bill bill;
 
     @BeforeEach
     public void setUp() {
-        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER);
+        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER, bill);
+        bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
     }
 
     @Test
