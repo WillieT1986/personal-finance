@@ -17,11 +17,13 @@ public class UserProfileTest {
 
     UserProfile underTest;
     Bill bill;
+    Financial_Institution financial_institution;
 
     @BeforeEach
     public void setUp() {
-        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER, bill);
+        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER, bill, financial_institution);
         bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
+        financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
     }
 
     @Test
