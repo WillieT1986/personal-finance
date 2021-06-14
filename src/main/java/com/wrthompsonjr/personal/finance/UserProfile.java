@@ -25,6 +25,10 @@ public class UserProfile {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Financial_Institution financialInstitution;
 
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Income income;
+
     public String firstName;
     public String middleName;
     public String lastName;
@@ -36,7 +40,7 @@ public class UserProfile {
     }
 
     public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber,
-                       Bill bill, Financial_Institution financialInstitution) {
+                       Bill bill, Financial_Institution financialInstitution, Income income) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -45,6 +49,7 @@ public class UserProfile {
         this.userPhoneNumber = userPhoneNumber;
         this.bill = bill;
         this.financialInstitution = financialInstitution;
+        this.income = income;
     }
 
     public String getUserFirstName() {

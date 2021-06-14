@@ -27,6 +27,7 @@ public class JpaMappingTest {
     UserProfile userProfile;
     Bill bill;
     Financial_Institution financial_institution;
+    Income income;
 
     @Resource
     private TestEntityManager entityManager;
@@ -40,11 +41,15 @@ public class JpaMappingTest {
     @Resource
     private Financial_Institution_Repository financialRepo;
 
+    @Resource
+    private IncomeRepository incomeRepo;
+
     @BeforeEach
     public void setUp() {
-        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
+        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income);
         bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
         financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
+        income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
     }
 
     @Test
@@ -65,10 +70,10 @@ public class JpaMappingTest {
         billRepository.save(bill);
         long billId = bill.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income);
         userProfile1 = userProfileRepo.save(userProfile1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income);
         userProfile2 = userProfileRepo.save(userProfile2);
 
         entityManager.flush();
@@ -84,10 +89,10 @@ public class JpaMappingTest {
         financialRepo.save(financial_institution);
         long financialInstitutionId = financial_institution.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income);
         userProfile1 = userProfileRepo.save(userProfile1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income);
         userProfile2 = userProfileRepo.save(userProfile2);
 
         entityManager.flush();
@@ -96,4 +101,24 @@ public class JpaMappingTest {
         financial_institution = financialRepo.getById(financialInstitutionId);
         assertThat(financial_institution.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
     }
+
+    @Test
+    public void shouldSaveUserProfileToIncomeRelationship() {
+        Income income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
+        incomeRepo.save(income);
+        long incomeId = income.getId();
+
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income);
+        userProfile1 = userProfileRepo.save(userProfile1);
+
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income);
+        userProfile2 = userProfileRepo.save(userProfile2);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        income = incomeRepo.getById(incomeId);
+        assertThat(income.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
+    }
+
 }
