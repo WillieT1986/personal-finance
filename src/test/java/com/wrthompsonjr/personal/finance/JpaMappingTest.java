@@ -26,6 +26,7 @@ public class JpaMappingTest {
 
     UserProfile userProfile;
     Bill bill;
+    Financial_Institution financial_institution;
 
     @Resource
     private TestEntityManager entityManager;
@@ -36,10 +37,14 @@ public class JpaMappingTest {
     @Resource
     private BillRepository billRepository;
 
+    @Resource
+    private Financial_Institution_Repository financialRepo;
+
     @BeforeEach
     public void setUp() {
-        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill);
+        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
         bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
+        financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
     }
 
     @Test
@@ -60,10 +65,10 @@ public class JpaMappingTest {
         billRepository.save(bill);
         long billId = bill.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill);
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
         userProfile1 = userProfileRepo.save(userProfile1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill);
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
         userProfile2 = userProfileRepo.save(userProfile2);
 
         entityManager.flush();
@@ -71,5 +76,24 @@ public class JpaMappingTest {
 
         bill = billRepository.getById(billId);
         assertThat(bill.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
+    }
+
+    @Test
+    public void shouldSaveUserProfileToFinancialRelationship() {
+        Financial_Institution financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
+        financialRepo.save(financial_institution);
+        long financialInstitutionId = financial_institution.getId();
+
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
+        userProfile1 = userProfileRepo.save(userProfile1);
+
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution);
+        userProfile2 = userProfileRepo.save(userProfile2);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        financial_institution = financialRepo.getById(financialInstitutionId);
+        assertThat(financial_institution.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
     }
 }

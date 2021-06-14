@@ -8,16 +8,38 @@ package com.wrthompsonjr.personal.finance;
     and Account Type.
 */
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Collection;
+
+@Entity
 public class Financial_Institution {
+
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @OneToMany(mappedBy = "financialInstitution")
+    private Collection<UserProfile> userProfiles;
 
     public String name;
     public String financialInstitutionType;
     public String accountType;
 
+    public Financial_Institution() {
+    }
+
     public Financial_Institution(String name, String financialInstitutionType, String accountType) {
         this.name = name;
         this.financialInstitutionType = financialInstitutionType;
         this.accountType = accountType;
+    }
+
+
+    public Collection<UserProfile> getUserProfiles() {
+        return userProfiles;
     }
 
     public String getName() {
@@ -30,5 +52,25 @@ public class Financial_Institution {
 
     public String getAccountType() {
         return accountType;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Long) id).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return id == ((Financial_Institution) obj).id;
     }
 }

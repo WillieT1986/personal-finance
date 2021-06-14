@@ -18,8 +18,12 @@ public class UserProfile {
     private long id;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Bill bill;
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Financial_Institution financialInstitution;
 
     public String firstName;
     public String middleName;
@@ -31,7 +35,8 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber, Bill bill) {
+    public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber,
+                       Bill bill, Financial_Institution financialInstitution) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -39,6 +44,7 @@ public class UserProfile {
         this.userEmail = userEmail;
         this.userPhoneNumber = userPhoneNumber;
         this.bill = bill;
+        this.financialInstitution = financialInstitution;
     }
 
     public String getUserFirstName() {
