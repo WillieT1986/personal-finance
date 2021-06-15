@@ -71,8 +71,7 @@ public class JpaMappingTest {
 
     @Test
     public void shouldSaveUserProfileToBillRelationship() {
-        Bill bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
-        billRepository.save(bill);
+        bill = billRepository.save(bill);
         long billId = bill.getId();
 
         UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
@@ -90,8 +89,7 @@ public class JpaMappingTest {
 
     @Test
     public void shouldSaveUserProfileToFinancialRelationship() {
-        Financial_Institution financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
-        financialRepo.save(financial_institution);
+        financial_institution = financialRepo.save(financial_institution);
         long financialInstitutionId = financial_institution.getId();
 
         UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
@@ -109,8 +107,7 @@ public class JpaMappingTest {
 
     @Test
     public void shouldSaveUserProfileToIncomeRelationship() {
-        Income income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
-        incomeRepo.save(income);
+        income = incomeRepo.save(income);
         long incomeId = income.getId();
 
         UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
@@ -128,8 +125,7 @@ public class JpaMappingTest {
 
     @Test
     public void shouldSaveUserProfileToCreditRelationship() {
-        credit = new Credit("United Explorers Credit Card", "Credit Card", 5000.00, "Chase Bank", "01/01/2021", "22");
-        creditRepo.save(credit);
+        credit = creditRepo.save(credit);
         long creditId = credit.getId();
 
         UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);

@@ -25,10 +25,8 @@ public class UserProfileTest {
 
     @BeforeEach
     public void setUp() {
-        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER, bill, financial_institution, income, credit);
-        bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
-        financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
-        income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
+        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER,
+                bill, financial_institution, income, credit);
     }
 
     @Test
