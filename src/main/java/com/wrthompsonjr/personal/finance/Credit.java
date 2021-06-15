@@ -6,7 +6,24 @@ package com.wrthompsonjr.personal.finance;
     sacrificing security and making our Credit more vulnerable online. Instead of adding Credit Info,
     this just helps track the basics.
 */
+
+import org.apache.catalina.User;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Collection;
+
+@Entity
 public class Credit {
+
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @OneToMany(mappedBy = "credit")
+    private Collection<UserProfile> userProfiles;
 
     public String creditName;
     public String creditType;
@@ -15,6 +32,9 @@ public class Credit {
     public String creditDateReceived;
     public String creditDueDate;
 
+    public Credit() {
+    }
+
     public Credit(String creditName, String creditType, Double creditAmount, String creditIssuer, String creditDateReceived, String creditDueDate) {
         this.creditName = creditName;
         this.creditType = creditType;
@@ -22,6 +42,10 @@ public class Credit {
         this.creditIssuer = creditIssuer;
         this.creditDateReceived = creditDateReceived;
         this.creditDueDate = creditDueDate;
+    }
+
+    public Collection<UserProfile> getUserProfiles() {
+        return userProfiles;
     }
 
     public String getCreditName() {
@@ -46,5 +70,25 @@ public class Credit {
 
     public String getCreditDueDate() {
         return creditDueDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Long) id).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return id == ((Credit) obj).id;
     }
 }
