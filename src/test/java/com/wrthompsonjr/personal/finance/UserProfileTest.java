@@ -3,6 +3,8 @@ package com.wrthompsonjr.personal.finance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.Resource;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -19,10 +21,11 @@ public class UserProfileTest {
     Bill bill;
     Financial_Institution financial_institution;
     Income income;
+    Credit credit;
 
     @BeforeEach
     public void setUp() {
-        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER, bill, financial_institution, income);
+        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER, bill, financial_institution, income, credit);
         bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
         financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
         income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
