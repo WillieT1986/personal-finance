@@ -26,9 +26,7 @@ public class JpaMappingTest {
 
     UserProfile userProfile;
     Bill bill;
-    Financial_Institution financial_institution;
     Income income;
-    Credit credit;
 
     @Resource
     private TestEntityManager entityManager;
@@ -40,21 +38,13 @@ public class JpaMappingTest {
     private BillRepository billRepository;
 
     @Resource
-    private Financial_Institution_Repository financialRepo;
-
-    @Resource
     private IncomeRepository incomeRepo;
-
-    @Resource
-    private CreditRepository creditRepo;
 
     @BeforeEach
     public void setUp() {
-        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
+        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
         bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
-        financial_institution = new Financial_Institution("USAA", "Bank", "Checking Account");
         income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
-        credit = new Credit("United Explorers Credit Card", "Credit Card", 5000.00, "Chase Bank", "01/01/2021", "22");
     }
 
     @Test
@@ -74,10 +64,10 @@ public class JpaMappingTest {
         bill = billRepository.save(bill);
         long billId = bill.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
         userProfile1 = userProfileRepo.save(userProfile1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
         userProfile2 = userProfileRepo.save(userProfile2);
 
         entityManager.flush();
@@ -88,32 +78,14 @@ public class JpaMappingTest {
     }
 
     @Test
-    public void shouldSaveUserProfileToFinancialRelationship() {
-        financial_institution = financialRepo.save(financial_institution);
-        long financialInstitutionId = financial_institution.getId();
-
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
-        userProfile1 = userProfileRepo.save(userProfile1);
-
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
-        userProfile2 = userProfileRepo.save(userProfile2);
-
-        entityManager.flush();
-        entityManager.clear();
-
-        financial_institution = financialRepo.getById(financialInstitutionId);
-        assertThat(financial_institution.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
-    }
-
-    @Test
     public void shouldSaveUserProfileToIncomeRelationship() {
         income = incomeRepo.save(income);
         long incomeId = income.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
         userProfile1 = userProfileRepo.save(userProfile1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
         userProfile2 = userProfileRepo.save(userProfile2);
 
         entityManager.flush();
@@ -121,23 +93,5 @@ public class JpaMappingTest {
 
         income = incomeRepo.getById(incomeId);
         assertThat(income.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
-    }
-
-    @Test
-    public void shouldSaveUserProfileToCreditRelationship() {
-        credit = creditRepo.save(credit);
-        long creditId = credit.getId();
-
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
-        userProfile1 = userProfileRepo.save(userProfile1);
-
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, financial_institution, income, credit);
-        userProfile2 = userProfileRepo.save(userProfile2);
-
-        entityManager.flush();
-        entityManager.clear();
-
-        credit = creditRepo.getById(creditId);
-        assertThat(credit.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
     }
 }

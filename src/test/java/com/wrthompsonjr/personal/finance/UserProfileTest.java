@@ -19,14 +19,12 @@ public class UserProfileTest {
 
     UserProfile underTest;
     Bill bill;
-    Financial_Institution financial_institution;
     Income income;
-    Credit credit;
 
     @BeforeEach
     public void setUp() {
         underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER,
-                bill, financial_institution, income, credit);
+                bill, income);
     }
 
     @Test
@@ -57,4 +55,5 @@ public class UserProfileTest {
         String check = underTest.getUserPhoneNumber();
         assertEquals(USER_PHONE_NUMBER, check);
     }
+
 }
