@@ -1,7 +1,6 @@
 package com.wrthompsonjr.personal.finance;
 
 import net.minidev.json.annotate.JsonIgnore;
-import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 
@@ -24,15 +23,7 @@ public class UserProfile {
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
-    private Financial_Institution financialInstitution;
-
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
     private Income income;
-
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Credit credit;
 
     public String firstName;
     public String middleName;
@@ -45,7 +36,7 @@ public class UserProfile {
     }
 
     public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber,
-                       Bill bill, Financial_Institution financialInstitution, Income income, Credit credit) {
+                       Bill bill, Income income) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -53,9 +44,11 @@ public class UserProfile {
         this.userEmail = userEmail;
         this.userPhoneNumber = userPhoneNumber;
         this.bill = bill;
-        this.financialInstitution = financialInstitution;
         this.income = income;
-        this.credit = credit;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUserFirstName() {
@@ -80,10 +73,6 @@ public class UserProfile {
 
     public String getUserPhoneNumber() {
         return userPhoneNumber;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     @Override
