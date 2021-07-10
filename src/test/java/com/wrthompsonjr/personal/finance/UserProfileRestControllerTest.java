@@ -32,10 +32,16 @@ public class UserProfileRestControllerTest {
 	private Bill bill;
 
 	@Mock
+	private Income income;
+
+	@Mock
 	private UserProfileRepository userProfileRepo;
 
 	@Mock
 	private BillRepository billRepo;
+
+	@Mock
+	private IncomeRepository incomeRepo;
 
 	@Mock
 	Model model;
@@ -47,7 +53,7 @@ public class UserProfileRestControllerTest {
 
 //	User Profile
 	@Test
-	public void shouldRetrieveUserProfiles() {
+	public void shouldRetrieveUserProfilesFromDatabase() {
 		when(userProfileRepo.findAll()).thenReturn(Collections.singletonList(userProfile));
 		String result = underTest.findUserProfiles(model);
 		assertTrue(result, contains(any(UserProfile.class)) != null);
@@ -129,6 +135,53 @@ public class UserProfileRestControllerTest {
 	}
 
 //	Income
+	@Test
+	public void shouldRetrieveIncomesFromDatabase() {
+		when(incomeRepo.findAll()).thenReturn(Collections.singletonList(income));
+		String result = underTest.findIncomes(model);
+		assertTrue(result, contains(any(Income.class)) != null);
+	}
 
+	@Test
+	public void shouldGetAnIncomeFromDatabase() {
+		when(incomeRepo.findAll()).thenReturn(Collections.singletonList(income));
+		String result = underTest.findBills(model);
+		assertTrue(result, contains(income) != null);
+	}
+
+	@Test
+	public void shouldReturnAnIncomeFromDatabase() {
+		when(incomeRepo.getById(78L)).thenReturn(income);
+		Income result = underTest.findIncome(78L);
+		assertThat(result, is(income));
+	}
+
+	@Test
+	public void shouldReturnCannotFindExceptionForIncomeId() {
+		CannotFindException thrown = assertThrows(
+				CannotFindException.class,
+				() -> {
+					long incomeId = 13L;
+					underTest.findIncome(incomeId);
+				});
+		assertEquals("This Income Does Not Exist...", thrown.getMessage());
+	}
+
+	@Test
+	public void shouldReturnAnyIncomesForAGivenUserProfile() {
+		when(userProfileRepo.findOneByUserProfile("Income")).thenReturn(userProfile);
+		when(userProfile.getIncomes()).thenReturn(Collections.singleton(income));
+		Iterable<Income> result = underTest.findIncomesByUserProfile("Income");
+		assertThat(result, contains(income));
+	}
+
+	@Test
+	public void shouldReturnAListOfIncomesForAGivenUserProfile() {
+		Long userProfileId = 40L;
+		when(userProfileRepo.getById(userProfileId)).thenReturn(userProfile);
+		when(userProfile.getIncomes()).thenReturn(Collections.singleton(income));
+		Iterable<Income> result = underTest.findIncomesByUserProfileId(userProfileId);
+		assertThat(result, contains(income));
+	}
 
 }
