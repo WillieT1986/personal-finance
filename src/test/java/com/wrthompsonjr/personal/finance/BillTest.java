@@ -14,45 +14,48 @@ public class BillTest {
     private static final String FREQUENCY = "Monthly";
     private static final String SUBSCRIPTION = "No";
 
-    Bill underTest;
+    UserProfile userProfileTest;
+    Bill billTest;
+    Income income;
 
     @BeforeEach
     public void setUp() {
-        underTest = new Bill(NAME, COST, DUE_DATE, FREQUENCY, SUBSCRIPTION);
+        billTest = new Bill(userProfileTest, NAME, COST, DUE_DATE, FREQUENCY, SUBSCRIPTION);
+        userProfileTest = new UserProfile("FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", "SUFFIX", "USER_EMAIL", "USER_PHONE_NUMBER", income);
     }
 
     @Test
     public void shouldInstantiateABill() {
-        assertNotNull(underTest);
+        assertNotNull(billTest);
     }
 
     @Test
     public void shouldConstructABillAndReturnABillName() {
-        String check = underTest.getName();
+        String check = billTest.getName();
         assertEquals(NAME, check);
     }
 
     @Test
     public void shouldReturnCostOfBill() {
-        Double check = underTest.getCost();
+        Double check = billTest.getCost();
         assertEquals(COST, check);
     }
 
     @Test
     public void shouldReturnDueDateOfBill() {
-        String check = underTest.getDueDate();
+        String check = billTest.getDueDate();
         assertEquals("08", check);
     }
 
     @Test
     public void shouldReturnTheFrequencyOfABill() {
-        String check = underTest.getFrequency();
+        String check = billTest.getFrequency();
         assertEquals("Monthly", check);
     }
 
     @Test
     public void shouldReturnAnIndicatorForSubscription() {
-        String check = underTest.getSubscriptionIndicator();
+        String check = billTest.getSubscriptionIndicator();
         assertEquals(SUBSCRIPTION, check);
     }
 }

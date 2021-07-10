@@ -6,10 +6,9 @@ package com.wrthompsonjr.personal.finance;
     the due date of the Bill, and how often the Bill is due.
 */
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import net.minidev.json.annotate.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -19,8 +18,9 @@ public class Bill {
     @GeneratedValue
     private long id;
 
-    @OneToMany(mappedBy = "bill")
-    private Collection<UserProfile> userProfiles;
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private UserProfile userProfile;
 
     private String name;
     private Double cost;
@@ -31,16 +31,13 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(String name, Double cost, String dueDate, String frequency, String subscription) {
+    public Bill(UserProfile userProfile, String name, Double cost, String dueDate, String frequency, String subscription) {
+        this.userProfile = userProfile;
         this.name = name;
         this.cost = cost;
         this.dueDate = dueDate;
         this.frequency = frequency;
         this.subscription = subscription;
-    }
-
-    public Collection<UserProfile> getUserProfiles() {
-        return userProfiles;
     }
 
     public String getName() {
