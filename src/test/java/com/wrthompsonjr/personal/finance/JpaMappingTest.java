@@ -35,15 +35,15 @@ public class JpaMappingTest {
     private UserProfileRepository userProfileRepo;
 
     @Resource
-    private BillRepository billRepository;
+    private BillRepository billRepo;
 
     @Resource
     private IncomeRepository incomeRepo;
 
     @BeforeEach
     public void setUp() {
-        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
-        bill = new Bill("AEP Electric", 50.00, "08", "Monthly", "No");
+        userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, income);
+        bill = new Bill(userProfile, "AEP Electric", 50.00, "08", "Monthly", "No");
         income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
     }
 
@@ -60,21 +60,21 @@ public class JpaMappingTest {
     }
 
     @Test
-    public void shouldSaveUserProfileToBillRelationship() {
-        bill = billRepository.save(bill);
-        long billId = bill.getId();
+    public void shouldSaveBillToUserProfileRelationship() {
+        userProfile = userProfileRepo.save(userProfile);
+        long userProfileId = userProfile.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
-        userProfile1 = userProfileRepo.save(userProfile1);
+        Bill bill1 = new Bill(userProfile, "AEP Electric", 50.00, "08", "Monthly", "No");
+        bill1 = billRepo.save(bill1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
-        userProfile2 = userProfileRepo.save(userProfile2);
+        Bill bill2 = new Bill(userProfile, "AEP Electric", 50.00, "08", "Monthly", "No");
+        bill2 = billRepo.save(bill2);
 
         entityManager.flush();
         entityManager.clear();
 
-        bill = billRepository.getById(billId);
-        assertThat(bill.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
+        userProfile = userProfileRepo.getById(userProfileId);
+        assertThat(userProfile.getBills(), containsInAnyOrder(bill1, bill2));
     }
 
     @Test
@@ -82,10 +82,10 @@ public class JpaMappingTest {
         income = incomeRepo.save(income);
         long incomeId = income.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
+        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, income);
         userProfile1 = userProfileRepo.save(userProfile1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, bill, income);
+        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, income);
         userProfile2 = userProfileRepo.save(userProfile2);
 
         entityManager.flush();
