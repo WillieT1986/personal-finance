@@ -4,10 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -24,6 +27,9 @@ public class UserProfileTest {
 
     @Resource
     private UserProfileRepository userProfileRepo;
+
+    @Resource
+    private TestEntityManager entityManager;
 
     UserProfile underTest;
     Income income;
@@ -64,10 +70,13 @@ public class UserProfileTest {
 
     @Test
     public void shouldSaveAndLoadUserProfile() {
-        UserProfile userProfileTest = userProfileRepo.save(new UserProfile("John", "H", "Smith", null, null, "phone", income));
+        UserProfile userProfileTest = userProfileRepo.save(new UserProfile("John"));
         long userProfileId = userProfileTest.getId();
 
-        
-    }
+        entityManager.flush();
+        entityManager.clear();
 
+        userProfileTest = userProfileRepo.getById(userProfileId);
+        assertThat(userProfileTest.getUserProfile(), is("John"));
+    }
 }
