@@ -44,7 +44,7 @@ public class JpaMappingTest {
     public void setUp() {
         userProfile = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, income);
         bill = new Bill(userProfile, "AEP Electric", 50.00, "08", "Monthly", "No");
-        income = new Income("Work", 1500.00, "1/1/2014", "Monthly");
+        income = new Income("Work", 1500.00, "1/1/2014", "Monthly", userProfile);
     }
 
     @Test
@@ -79,19 +79,19 @@ public class JpaMappingTest {
 
     @Test
     public void shouldSaveUserProfileToIncomeRelationship() {
-        income = incomeRepo.save(income);
-        long incomeId = income.getId();
+        userProfile = userProfileRepo.save(userProfile);
+        long userProfileId = userProfile.getId();
 
-        UserProfile userProfile1 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, income);
-        userProfile1 = userProfileRepo.save(userProfile1);
+        Income income1 = new Income("Work1", 1500.00, "1/1/2014", "Monthly", userProfile);
+        income1 = incomeRepo.save(income1);
 
-        UserProfile userProfile2 = new UserProfile(USER_FIRST_NAME, USER_MIDDLE_NAME, USER_LAST_NAME, USER_SUFFIX, USER_EMAIL, USER_PHONE, income);
-        userProfile2 = userProfileRepo.save(userProfile2);
+        Income income2 = new Income("Work2", 1500.00, "1/1/2014", "Monthly", userProfile);
+        income2 = incomeRepo.save(income2);
 
         entityManager.flush();
         entityManager.clear();
 
-        income = incomeRepo.getById(incomeId);
-        assertThat(income.getUserProfiles(), containsInAnyOrder(userProfile1, userProfile2));
+        userProfile = userProfileRepo.getById(userProfileId);
+        assertThat(userProfile.getIncomes(), containsInAnyOrder(income1, income2));
     }
 }

@@ -7,12 +7,8 @@ package com.wrthompsonjr.personal.finance;
     for another user as well.
 */
 
-import javax.annotation.Resource;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Collection;
+import net.minidev.json.annotate.JsonIgnore;
+import javax.persistence.*;
 
 @Entity
 public class Income {
@@ -21,8 +17,9 @@ public class Income {
     @GeneratedValue
     private long id;
 
-    @OneToMany(mappedBy = "income")
-    private Collection<UserProfile> userProfiles;
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private UserProfile userProfile;
 
     public String source;
     public Double amount;
@@ -32,15 +29,12 @@ public class Income {
     public Income() {
     }
 
-    public Income(String source, Double amount, String dateReceived, String incomeFrequency) {
+    public Income(String source, Double amount, String dateReceived, String incomeFrequency, UserProfile userProfile) {
         this.source = source;
         this.amount = amount;
         this.dateReceived = dateReceived;
         this.incomeFrequency = incomeFrequency;
-    }
-
-    public Collection<UserProfile> getUserProfiles() {
-        return userProfiles;
+        this.userProfile = userProfile;
     }
 
     public String getSourceOfIncome() {

@@ -12,11 +12,12 @@ public class IncomeTest {
     private static final String DATE_RECEIVED = "07/01/2021";
     private static final String INCOME_FREQUENCY = "Monthly";
 
+    UserProfile userProfileTest;
     Income underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new Income(SOURCE, AMOUNT, DATE_RECEIVED, INCOME_FREQUENCY);
+        underTest = new Income(SOURCE, AMOUNT, DATE_RECEIVED, INCOME_FREQUENCY, userProfileTest);
     }
 
     @Test

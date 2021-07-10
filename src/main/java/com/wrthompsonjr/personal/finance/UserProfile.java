@@ -23,9 +23,8 @@ public class UserProfile {
     @OneToMany(mappedBy = "userProfile")
     private Collection<Bill> bills;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Income income;
+    @OneToMany(mappedBy = "userProfile")
+    private Collection<Income> incomes;
 
     public String firstName;
     public String middleName;
@@ -52,11 +51,14 @@ public class UserProfile {
         this.suffix = suffix;
         this.userEmail = userEmail;
         this.userPhoneNumber = userPhoneNumber;
-        this.income = income;
     }
 
     public Collection<Bill> getBills() {
         return bills;
+    }
+
+    public Collection<Income> getIncomes() {
+        return incomes;
     }
 
     public Long getId() {
