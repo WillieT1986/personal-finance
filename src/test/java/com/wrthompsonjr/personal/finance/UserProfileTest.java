@@ -2,12 +2,17 @@ package com.wrthompsonjr.personal.finance;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
 public class UserProfileTest {
 
     private static final String FIRST_NAME = "First";
@@ -17,14 +22,15 @@ public class UserProfileTest {
     private static final String USER_EMAIL = "Test@wrthompsonjr.com";
     private static final String USER_PHONE_NUMBER = "000-000-0000";
 
+    @Resource
+    private UserProfileRepository userProfileRepo;
+
     UserProfile underTest;
-    Bill bill;
     Income income;
 
     @BeforeEach
     public void setUp() {
-        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER,
-                bill, income);
+        underTest = new UserProfile(FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, USER_EMAIL, USER_PHONE_NUMBER, income);
     }
 
     @Test
@@ -54,6 +60,14 @@ public class UserProfileTest {
     public void shouldReturnUserPhoneNumber() {
         String check = underTest.getUserPhoneNumber();
         assertEquals(USER_PHONE_NUMBER, check);
+    }
+
+    @Test
+    public void shouldSaveAndLoadUserProfile() {
+        UserProfile userProfileTest = userProfileRepo.save(new UserProfile("John", "H", "Smith", null, null, "phone", income));
+        long userProfileId = userProfileTest.getId();
+
+        
     }
 
 }
