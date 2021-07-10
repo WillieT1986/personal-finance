@@ -3,6 +3,7 @@ package com.wrthompsonjr.personal.finance;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /*
     -- The User Profile Class --
@@ -17,9 +18,10 @@ public class UserProfile {
     @GeneratedValue
     private long id;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Bill bill;
+    private String userProfile;
+
+    @OneToMany(mappedBy = "userProfile")
+    private Collection<Bill> bills;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -35,16 +37,26 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber,
-                       Bill bill, Income income) {
+    public UserProfile(String userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public String getUserProfile() {
+        return userProfile;
+    }
+
+    public UserProfile(String firstName, String middleName, String lastName, String suffix, String userEmail, String userPhoneNumber, Income income) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.suffix = suffix;
         this.userEmail = userEmail;
         this.userPhoneNumber = userPhoneNumber;
-        this.bill = bill;
         this.income = income;
+    }
+
+    public Collection<Bill> getBills() {
+        return bills;
     }
 
     public Long getId() {

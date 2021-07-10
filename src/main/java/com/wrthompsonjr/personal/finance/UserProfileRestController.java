@@ -20,6 +20,11 @@ public class UserProfileRestController {
 	@Resource
 	UserProfileRepository userProfileRepo;
 
+	@Resource
+	BillRepository billRepo;
+
+
+//	User Profile
 	public String findUserProfiles(Model model) {
 		model.addAttribute("userProfiles", userProfileRepo.findAll());
 		return "userProfiles";
@@ -32,6 +37,33 @@ public class UserProfileRestController {
 		}
 		return userProfileRepo.getById(id);
 	}
+
+	@RequestMapping("/userProfile/{id}")
+	public Iterable<Bill> findBillsByUserProfileId(@PathVariable(name = "id") Long id) {
+		return userProfileRepo.getById(id).getBills();
+	}
+
+
+//	Bill
+	public String findBills(Model model) {
+		model.addAttribute("bills", billRepo.findAll());
+		return "bills";
+	}
+
+	public Iterable<Bill> findBillsByUserProfile(String userProfile) {
+		return userProfileRepo.findOneByUserProfile(userProfile).getBills();
+	}
+
+	@RequestMapping("/bills/{id}")
+	public Bill findBill(@PathVariable(name = "id") Long id) {
+		if (billRepo.getById(id) == null) {
+			throw new CannotFindException("This Bill Does Not Exist.");
+		}
+		return billRepo.getById(id);
+	}
+
+
+// Income
 
 
 
